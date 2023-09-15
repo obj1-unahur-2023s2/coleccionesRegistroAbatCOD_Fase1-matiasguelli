@@ -11,10 +11,10 @@ object reg {
 		registro.add ([cantidad,dia])
 	}
 	
-	method agregarAbatidosVariosDias(registroAbatidos){
-		registro.addAll(registroAbatidos)
+/*	method agregarAbatidosVariosDias(registroAbatidos){
+		registroAbatidos.forEach{e => self.agregarAbatidosDia(e)}
 	}
-	
+	 */
 	method dia(reg) = reg.get(1)
 	
 	method cant(reg) = reg.first()
@@ -30,27 +30,31 @@ object reg {
 		registro.remove(self.registroDia(dia))
 	}
 	
-	
-	
-	
-/*	method cantidadDeDiasRegistrados() = dias.size()
-	
-	method estaVacioElRegistro() = abatidos.isEmpty() && dias.isEmpty()
-	
-	method algunDiaAbatio(cantidad) = abatidos.any({a => a == cantidad})
-	
-	method primerValorDeAbatidos() = abatidos.first()
-	
-	method ultimoValorDeAbatidos() = abatidos.last()
-	
-	method maximoValorDeAbatidos() = abatidos.max()
-	
-	method totalAbatidos() = abatidos.sum()
-	
-	method cantidadDeAbatidosElDia(dia){
-		
+	method eliminarVariosRegistrosDeDias(listaDeDia){
+		if(listaDeDia.all{x => self.yaEstaElDia(x)}){
+			self.error("algun dia no esta incluido la lista")
+		}
+		listaDeDia.forEach{x => self.eliminarElRegistroDelDia(x)}
 	}
-	 */
+	
+	
+	method cantidadDeDiasRegistrados() = registro.size()
+	
+	method estaVacioElRegistro() = registro.isEmpty() 
+
+	method algunDiaAbatio(cantidad) = registro.any({r => self.cant(r) == cantidad})
+	
+	method primerValorDeAbatidos() = self.cant(registro.first())
+	
+	method ultimoValorDeAbatidos() = self.cant(registro.last())
+	method maximoValorDeAbatidosBis() = self.cant(registro.max({ r=> self.cant(r)}))
+	method maximoValorDeAbatidos() = registro.max({ r=> self.cant(r)}).first()
+	method maximoValorConMap()= registro.map({ r=>self.cant(r)})
+	method totalAbatidos() = registro.sum({r=> self.cant(r)})
+	
+	method cantidadDeAbatidosElDia(dia) = self.cant(self.registroDia(dia))
+	method ultimoValorDeAbatidosConSize() = self.cant(registro.get(registro.size()-1))
+	method esCrack() = (1..registro.size()-1).all({i=> self.cant(registro.get(i))> self.cant(registro.get(i-1))})
 	
 	
 }
